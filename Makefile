@@ -10,11 +10,11 @@ all: qt
 
 # Build the Qt standalone version
 qt:
-	@echo "Building Mu..."
-	(cd qtBuildSystem/Mu && qmake6 && $(MAKE))
+	@echo "Building QtMu..."
+	(mkdir -p qtBuildSystem/Mu/build && cd qtBuildSystem/Mu/build && qmake6 .. && $(MAKE))
 
 # Clean the build directory
 clean:
 	@echo "Cleaning build directory..."
-	(cd qtBuildSystem/Mu && rm -rf *.o moc_* qrc_* ui_* Mu Makefile CMakeFiles)
+	rm -rf qtBuildSystem/Mu/build
 	rm -rf build
