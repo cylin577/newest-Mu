@@ -7,7 +7,7 @@
 #include <QObject>
 #include <QEvent>
 #include <QSettings>
-#include <QAudioOutput>
+#include <QAudioSink>
 #include <QIODevice>
 #include <QKeyEvent>
 
@@ -15,6 +15,8 @@
 #include "settingsmanager.h"
 #include "statemanager.h"
 #include "debugviewer.h"
+
+#include "titlebar.h"
 
 namespace Ui{
 class MainWindow;
@@ -83,12 +85,14 @@ private slots:
    void on_bootApp_clicked();
 
 private:
+   TitleBar*        m_titleBar;
    SettingsManager* settingsManager;
    StateManager*    stateManager;
    DebugViewer*     emuDebugger;
    QTimer*          refreshDisplay;
-   QAudioOutput*    audioDevice;
+   QAudioSink*      audioDevice;
    QIODevice*       audioOut;
    Ui::MainWindow*  ui;
+   QPoint           m_dragPosition;
    int              keyForButton[EmuWrapper::BUTTON_TOTAL_COUNT];
 };

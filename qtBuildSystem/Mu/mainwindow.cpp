@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "titlebar.h"
 #include "ui_mainwindow.h"
 
 #include <QDir>
@@ -14,7 +15,8 @@
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <QCoreApplication>
-#include <QAudioOutput>
+#include <QAudioSink>
+#include <QMediaDevices>
 #include <QAudioFormat>
 
 #include <stdint.h>
@@ -32,14 +34,7 @@ MainWindow::MainWindow(QWidget* parent) :
    //audio output
    format.setSampleRate(AUDIO_SAMPLE_RATE);
    format.setChannelCount(2);
-   format.setSampleSize(16);
-   format.setCodec("audio/pcm");
-#if Q_BYTE_ORDER == Q_BIG_ENDIAN
-   format.setByteOrder(QAudioFormat::BigEndian);
-#else
-   format.setByteOrder(QAudioFormat::LittleEndian);
-#endif
-   format.setSampleType(QAudioFormat::SignedInt);
+   format.setSampleFormat(QAudioFormat::Int16);
 
    //submodules
    settings = new QSettings(QDir::homePath() + "/MuCfg.txt", QSettings::IniFormat);//settings is public, create it first
@@ -48,7 +43,7 @@ MainWindow::MainWindow(QWidget* parent) :
    emuDebugger = new DebugViewer(this);
    refreshDisplay = new QTimer(this);
 
-   audioDevice = new QAudioOutput(format, this);
+   audioDevice = new QAudioSink(QMediaDevices::defaultAudioOutput(), format, this);
    audioOut = audioDevice->start();
 
    //set variables to there default if its the first boot
@@ -86,6 +81,14 @@ MainWindow::MainWindow(QWidget* parent) :
 
    //GUI
    ui->setupUi(this);
+
+   //rounded corners
+   setWindowFlags(Qt::FramelessWindowHint);
+   setAttribute(Qt::WA_TranslucentBackground);
+   ui->centralWidget->setStyleSheet("QWidget#centralWidget { border-radius: 15px; background-color: palette(window); }");
+
+   m_titleBar = new TitleBar(this);
+   setMenuWidget(m_titleBar);
 
    //this makes the display window and button icons resize properly
    ui->centralWidget->installEventFilter(this);
@@ -484,3 +487,5 @@ void MainWindow::on_bootApp_clicked(){
          emu.resume();
    }
 }
+
+

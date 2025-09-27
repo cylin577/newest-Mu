@@ -111,3 +111,14 @@ add_subdirectory(libretroBuildSystem)
 
 # QT Build
 add_subdirectory(qtBuildSystem)
+
+# Custom targets
+add_custom_target(qt ALL
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target QtMu
+    DEPENDS QtMu
+)
+
+add_custom_target(libretro ALL
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target mu_libretro
+    DEPENDS mu_libretro
+)

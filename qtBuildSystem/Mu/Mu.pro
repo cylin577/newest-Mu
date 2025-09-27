@@ -240,7 +240,8 @@ SOURCES += \
     mainwindow.cpp \
     statemanager.cpp \
     touchscreen.cpp \
-    settingsmanager.cpp
+    settingsmanager.cpp \
+    titlebar.cpp
 
 HEADERS += \
     ../../include/ads7846.h \
@@ -274,7 +275,8 @@ HEADERS += \
     mainwindow.h \
     statemanager.h \
     touchscreen.h \
-    settingsmanager.h
+    settingsmanager.h \
+    titlebar.h
 
 
 FORMS += \

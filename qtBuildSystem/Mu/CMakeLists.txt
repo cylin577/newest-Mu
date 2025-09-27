@@ -3,8 +3,8 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-# We need all the Qt5 libraries
-find_package(Qt5 OPTIONAL_COMPONENTS Core Gui Widgets Multimedia Svg)
+# We need all the Qt6 libraries
+find_package(Qt6 OPTIONAL_COMPONENTS Core Gui Widgets Multimedia Svg)
 
 # Application Icon for Mu
 if(WIN32)
@@ -34,9 +34,9 @@ add_executable(QtMu
 	touchscreen.cpp
 	${MU_APP_RESOURCES})
 
-# The Qt build requires modern-ish C++11
+# The Qt build requires modern-ish C++17
 set_target_properties(QtMu PROPERTIES
-	CXX_STANDARD 11
+	CXX_STANDARD 17
 	CXX_STANDARD_REQUIRED YES
 	CXX_EXTENSIONS YES)
 
@@ -61,13 +61,13 @@ find_package(Threads REQUIRED)
 # Need to link into all these Qt components
 target_link_libraries(QtMu
 	MuCore Threads::Threads
-	Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia Qt5::Svg)
+	Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Multimedia Qt6::Svg)
 
 # Deployment for Windows
 if(WIN32)
 	# Retrieve the absolute path to qmake and then use that path to find
 	# the windeployqt executable
-	get_target_property(QMAKE_EXE Qt5::qmake IMPORTED_LOCATION)
+	get_target_property(QMAKE_EXE Qt6::qmake IMPORTED_LOCATION)
 	get_filename_component(QT_BIN_DIR "${QMAKE_EXE}" DIRECTORY)
 
 	find_program(WINDEPLOYQT_ENV_SETUP qtenv2.bat HINTS "${QT_BIN_DIR}")
